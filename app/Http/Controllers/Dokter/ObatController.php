@@ -10,7 +10,7 @@ class ObatController extends Controller
 {
     public function index()
     {
-        $obats = Obat::all();
+        $obats = Obat::paginate(6);
         return view('dokter.obat.index')->with([
             'obats' => $obats,
         ]);
