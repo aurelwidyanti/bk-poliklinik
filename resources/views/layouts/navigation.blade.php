@@ -99,7 +99,7 @@
                 <x-responsive-nav-link :href="route('dokter.obat.index')" :active="request()->routeIs('dokter.obat.index')">
                     {{ __('Obat') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('dokter.jadwal-periksa.index')" :active="request()->routeIs('dokter.dashboard')">
+                <x-responsive-nav-link :href="route('dokter.jadwal-periksa.index')" :active="request()->routeIs('dokter.jadwal-periksa.index')">
                     {{ __('Jadwal Periksa') }}
                 </x-responsive-nav-link>
             @elseif(Auth::user()->role == 'pasien')
