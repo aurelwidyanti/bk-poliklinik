@@ -14,7 +14,7 @@ Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () 
         Route::get('/create', [ObatController::class, 'create'])->name('create');
         Route::post('/', [ObatController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [ObatController::class, 'edit'])->name('edit');
-        Route::patch('/{id}', [ObatController::class, 'update'])->name('update');
+        Route::put('/{id}', [ObatController::class, 'update'])->name('update');
         Route::delete('/{id}', [ObatController::class, 'destroy'])->name('destroy');
     });
 
