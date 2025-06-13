@@ -16,4 +16,9 @@ class JadwalPeriksa extends Model
     public function janjiPeriksas(){
         return $this->hasMany(JanjiPeriksa::class, 'id_jadwal_periksa');
     }
+
+    public function getFullJadwalAttribute()
+    {
+        return $this->hari . ', ' . $this->jam_mulai . '-' . $this->jam_selesai;
+    }
 }
