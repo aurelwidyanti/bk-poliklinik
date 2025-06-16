@@ -54,7 +54,7 @@
                                         <td class="flex items-center gap-3">
                                             {{-- Button Edit --}}
                                             <a href="{{ route('dokter.obat.edit', $obat->id) }}"
-                                                class="btn btn-secondary btn-sm">
+                                                class="btn btn-warning btn-sm">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
