@@ -93,7 +93,7 @@
                                             </form>
 
                                             <a href="{{ route('dokter.jadwal-periksa.edit', $jadwalPeriksa->id) }}"
-                                                class="btn btn-secondary btn-sm">
+                                                class="btn btn-warning btn-sm">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
