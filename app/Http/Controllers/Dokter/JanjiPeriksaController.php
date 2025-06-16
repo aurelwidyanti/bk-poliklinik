@@ -18,7 +18,19 @@ class JanjiPeriksaController extends Controller
     public function index()
     {
         $jadwalPeriksa = JadwalPeriksa::where('id_dokter', Auth::user()->id)->where('status', true)->first();
-        $janjiPeriksas = JanjiPeriksa::where('id_jadwal_periksa', $jadwalPeriksa->id)->paginate(6);
+
+        if (!$jadwalPeriksa) {
+            return view('dokter.janji-periksa.index', [
+                'jadwalPeriksa' => null,
+                'janjiPeriksa' => collect(),
+            ]);
+        }
+
+        $janjiPeriksas = JanjiPeriksa::where('id_jadwal_periksa', $jadwalPeriksa->id)
+            ->whereDoesntHave('periksa')
+            ->with('pasien')
+            ->paginate(6);
+
         return view('dokter.janji-periksa.index')->with([
             'janjiPeriksas' => $janjiPeriksas,
             'jadwalPeriksa' => $jadwalPeriksa
@@ -36,9 +48,34 @@ class JanjiPeriksaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, string $id)
     {
-        //
+        $janjiPeriksa = JanjiPeriksa::findOrFail($id);
+        $jadwalPeriksa = JadwalPeriksa::findOrFail($janjiPeriksa->id_jadwal_periksa);
+
+        if ($jadwalPeriksa->id_dokter !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $validated = $request->validate([
+            'tgl_periksa' => 'required|date',
+            'catatan' => 'required|string',
+            'obat' => 'required|array',
+            'obat.*' => 'required|exists:obats,id',
+            'biaya_periksa' => 'required|integer'
+        ]);
+
+
+        $periksa = Periksa::create([
+            'id_janji_periksa' => $id,
+            'tgl_periksa' => $validated['tgl_periksa'],
+            'catatan' => $validated['catatan'],
+            'biaya_periksa' => $validated['biaya_periksa']
+        ]);
+
+        $periksa->obats()->attach($validated['obat']);
+
+        return redirect()->route('dokter.janji-periksa.index');
     }
 
     /**
@@ -47,6 +84,12 @@ class JanjiPeriksaController extends Controller
     public function show(string $id)
     {
         $janjiPeriksa = JanjiPeriksa::findOrFail($id);
+        $jadwalPeriksa = JadwalPeriksa::findOrFail($janjiPeriksa->id_jadwal_periksa);
+
+        if ($jadwalPeriksa->id_dokter !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
         $obats = Obat::all();
 
         return view('dokter.janji-periksa.show')->with([
