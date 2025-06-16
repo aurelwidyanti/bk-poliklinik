@@ -19,7 +19,7 @@
 
         <div>
             <x-input-label for="nama" :value="__('Nama')" />
-            <x-text-input id="nama" nama="nama" type="text" class="mt-1 block w-full" :value="old('nama', $user->nama)" required autofocus autocomplete="nama" />
+            <x-text-input id="nama" name="nama" type="text" class="mt-1 block w-full" :value="old('nama', $user->nama)" required autofocus autocomplete="nama" />
             <x-input-error class="mt-2" :messages="$errors->get('nama')" />
         </div>
 
@@ -45,6 +45,23 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div>
+            <x-input-label for="id_poli" :value="__('Poli')" />
+            <select
+                class="rounded form-control"
+                id="id_poli"
+                name="id_poli"
+            >
+                <option value="" {{ old('id_poli', $user->id_poli ?? '') ? '' : 'selected' }} disabled>Pilih Poli</option>
+                @foreach ($polis as $poli)
+                    <option value="{{ $poli->id }}" {{ old('id_poli', $user->id_poli ?? '') == $poli->id ? 'selected' : '' }}>{{ $poli->nama }}</option>
+                @endforeach
+            </select>
+            @error('id_poli')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="flex items-center gap-4">
