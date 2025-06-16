@@ -20,9 +20,11 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">No</th>
+                                    <th scope="col">Tanggal Periksa</th>
                                     <th scope="col">No RM</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col">Keluhan</th>
+                                    <th scope="col">Biaya Periksa</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -31,6 +33,9 @@
                                     <tr>
                                         <td class="align-middle text-start">
                                             {{ $loop->iteration }}
+                                        </td>
+                                        <td class="align-middle text-start">
+                                            {{ \Carbon\Carbon::parse($periksa->tgl_periksa)->format('d-m-Y') }}
                                         </td>
                                         <td class="align-middle text-start">
                                             {{ $periksa->janjiPeriksa->pasien->no_rm }}
@@ -43,8 +48,9 @@
                                         <td class="align-middle text-start">
                                             {{ $periksa->janjiPeriksa->keluhan }}
                                         </td>
-                                        
-                                        
+                                        <td class="align-middle text-start">
+                                            {{ 'Rp' . number_format($periksa->biaya_periksa, 0, ',', '.') }}
+                                        </td>
                                         <td class="flex items-center gap-3">
                                             {{-- Button Edit --}}
                                             <a href="{{ route('dokter.riwayat-periksa.edit', $periksa->id) }}"
