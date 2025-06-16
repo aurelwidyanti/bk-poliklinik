@@ -29,7 +29,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($periksas as $periksa)
+                                @forelse ($periksas as $periksa)
                                     <tr>
                                         <td class="align-middle text-start">
                                             {{ $loop->iteration }}
@@ -59,7 +59,13 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="align-middle text-center">
+                                            Tidak ada riwayat periksa.
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
 
