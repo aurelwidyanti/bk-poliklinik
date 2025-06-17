@@ -35,7 +35,7 @@
                                 <tr>
                                     <th scope="row" class="align-middle text-start">{{ $loop->iteration }}</th>
                                     <td class="align-middle text-start">
-                                        {{ $janjiPeriksa->jadwalPeriksa->dokter->poli }}</td>
+                                        {{ $janjiPeriksa->jadwalPeriksa->dokter->poli->nama }}</td>
                                     <td class="align-middle text-start">
                                         {{ $janjiPeriksa->jadwalPeriksa->dokter->nama }}</td>
                                     <td class="align-middle text-start">{{ $janjiPeriksa->jadwalPeriksa->hari }}</td>
@@ -48,9 +48,13 @@
                                     <td class="align-middle text-start">{{ $janjiPeriksa->no_antrian }}</td>
                                     <td class="align-middle text-start">
                                         @if (is_null($janjiPeriksa->periksa))
-                                            <span class="badge badge-pill badge-warning">Belum Diperiksa</span>
+                                            <span class="inline-block px-3 py-2 text-xs font-semibold text-yellow-800 bg-yellow-200 rounded-full">
+                                                <i class="fas fa-clock mr-1"></i> Belum Diperiksa
+                                            </span>
                                         @else
-                                            <span class="badge badge-pill badge-success">Sudah Diperiksa</span>
+                                            <span class="inline-block px-3 py-2 text-xs font-semibold text-green-800 bg-green-200 rounded-full">
+                                                <i class="fas fa-check-circle mr-1"></i> Sudah Diperiksa
+                                            </span>
                                         @endif
                                     </td>
                                     <td class="align-middle text-start">
@@ -84,7 +88,7 @@
                                                             <ul class="list-group">
                                                                 <li class="list-group-item">
                                                                     <strong>Poliklinik:</strong>
-                                                                    {{ $janjiPeriksa->jadwalPeriksa->dokter->poli }}
+                                                                    {{ $janjiPeriksa->jadwalPeriksa->dokter->poli->nama }}
                                                                 </li>
                                                                 <li class="list-group-item">
                                                                     <strong>Nama Dokter:</strong>
@@ -143,9 +147,9 @@
                     </table>
 
                     <div>
-                        {{ $periksas->links() }}
+                        {{ $janjiPeriksas->links() }}
                     </div>
-                    
+
                 </section>
             </div>
         </div>
