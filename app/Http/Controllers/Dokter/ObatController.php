@@ -89,4 +89,11 @@ class ObatController extends Controller
 
         return redirect()->route('dokter.obat.deleted')->with('status', 'obat-restored');
     }
+
+    public function restoreAll()
+    {
+        Obat::onlyTrashed()->restore();
+
+        return redirect()->route('dokter.obat.deleted')->with('status', 'obat-restored');
+    }
 }
