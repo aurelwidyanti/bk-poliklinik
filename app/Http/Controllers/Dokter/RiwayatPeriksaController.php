@@ -17,6 +17,14 @@ class RiwayatPeriksaController extends Controller
     public function index()
     {
         $jadwalPeriksa = JadwalPeriksa::where('id_dokter', Auth::user()->id)->where('status', true)->first();
+
+        if (!$jadwalPeriksa) {
+            return view('dokter.riwayat-periksa.index', [
+                'jadwalPeriksa' => null,
+                'periksas' => collect(),
+            ]);
+        }
+
         $periksas = Periksa::with([
             'janjiPeriksa' => function ($query) use ($jadwalPeriksa) {
                 $query->where('id_jadwal_periksa', $jadwalPeriksa->id);
@@ -24,6 +32,7 @@ class RiwayatPeriksaController extends Controller
         ])->paginate(10);
 
         return view('dokter.riwayat-periksa.index')->with([
+            'jadwalPeriksa' => $jadwalPeriksa,
             'periksas' => $periksas,
         ]);
     }
