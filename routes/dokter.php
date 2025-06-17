@@ -20,6 +20,7 @@ Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () 
         Route::delete('/{id}', [ObatController::class, 'destroy'])->name('destroy');
         Route::get('/deleted', [ObatController::class, 'deleted'])->name('deleted');
         Route::post('/{id}/restore', [ObatController::class, 'restore'])->name('restore');
+        Route::post('/restore-all', [ObatController::class, 'restoreAll'])->name('restoreAll');
     });
 
     Route::prefix('jadwal-periksa')->name('dokter.jadwal-periksa.')->group(function () {
@@ -41,5 +42,6 @@ Route::middleware(['auth', 'role:dokter'])->prefix('dokter')->group(function () 
     Route::prefix('riwayat-periksa')->name('dokter.riwayat-periksa.')->group(function(){
         Route::get('/', [RiwayatPeriksaController::class, 'index'])->name('index');
         Route::get('/{id}/edit', [RiwayatPeriksaController::class, 'edit'])->name('edit');
+        Route::put('/{id}/edit', [RiwayatPeriksaController::class, 'update'])->name('update');
     });
 });
