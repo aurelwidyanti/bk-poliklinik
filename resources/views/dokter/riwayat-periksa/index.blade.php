@@ -13,6 +13,11 @@
                         <h2 class="text-lg font-medium text-gray-900">
                             {{ __('Daftar Riwayat Periksa') }}
                         </h2>
+                        @if (session('success'))
+                            <div class="mb-4 text-green-600 bg-green-100 border border-green-300 rounded px-4 py-2">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                     </header>
 
                     <div class="overflow-x-auto mt-6 rounded">
