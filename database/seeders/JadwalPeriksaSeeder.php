@@ -22,7 +22,7 @@ class JadwalPeriksaSeeder extends Seeder
                 'hari' => 'Senin',
                 'jam_mulai' => '08:00:00',
                 'jam_selesai' => '12:00:00',
-                'status' => true,
+                'status' => false,
             ],
             [
                 'id_dokter' => $dokters->where('email', 'budi.santoso@klinik.com')->first()->id,
@@ -36,7 +36,7 @@ class JadwalPeriksaSeeder extends Seeder
                 'hari' => 'Selasa',
                 'jam_mulai' => '09:00:00',
                 'jam_selesai' => '13:00:00',
-                'status' => true,
+                'status' => false,
             ],
             [
                 'id_dokter' => $dokters->where('email', 'siti.rahayu@klinik.com')->first()->id,
@@ -50,7 +50,7 @@ class JadwalPeriksaSeeder extends Seeder
                 'hari' => 'Senin',
                 'jam_mulai' => '13:00:00',
                 'jam_selesai' => '17:00:00',
-                'status' => true,
+                'status' => false,
             ],
             [
                 'id_dokter' => $dokters->where('email', 'ahmad.wijaya@klinik.com')->first()->id,
@@ -71,7 +71,7 @@ class JadwalPeriksaSeeder extends Seeder
                 'hari' => 'Sabtu',
                 'jam_mulai' => '09:00:00',
                 'jam_selesai' => '13:00:00',
-                'status' => true,
+                'status' => false,
             ],
             [
                 'id_dokter' => $dokters->where('email', 'doni.pratama@klinik.com')->first()->id,
@@ -85,7 +85,7 @@ class JadwalPeriksaSeeder extends Seeder
                 'hari' => 'Kamis',
                 'jam_mulai' => '13:00:00',
                 'jam_selesai' => '17:00:00',
-                'status' => true,
+                'status' => false,
             ],
         ];
 
