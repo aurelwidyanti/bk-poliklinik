@@ -32,11 +32,27 @@
                                 <label for="formGroupExampleInput">Keluhan</label>
                                 <textarea type="text" class="rounded form-control" id="formGroupExampleInput" placeholder="Example input" readonly>{{ $periksa->janjiPeriksa->keluhan }}</textarea>
                             </div>
+
+                            @if ($periksa->obats->count() > 0)
+                                <div class="form-group">
+                                    <label>Obat yang Dipilih Sebelumnya</label>
+                                    <div class="p-3 bg-gray-50 rounded">
+                                        @foreach ($periksa->obats as $obat)
+                                            <span
+                                                class="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded mr-1 mb-1">
+                                                {{ $obat->nama_obat }} - Rp
+                                                {{ number_format($obat->harga, 0, ',', '.') }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <form class="mt-6"
-                            action="{{ route('dokter.janji-periksa.store', $periksa->janjiPeriksa->id) }}"
+                            action="{{ route('dokter.riwayat-periksa.update', $periksa->janjiPeriksa->id) }}"
                             method="POST">
                             @csrf
+                            @method('PUT')
 
                             <div class="mb-3 form-group">
                                 <label for="tgl_periksa">Tanggal Periksa</label>
@@ -53,7 +69,8 @@
                                 <label for="obat">Obat</label>
                                 <select class="rounded form-control" id="obat" name="obat[]" required multiple>
                                     @foreach ($obats as $obat)
-                                        <option value="{{ $obat->id }}" data-harga="{{ $obat->harga }}">
+                                        <option value="{{ $obat->id }}" data-harga="{{ $obat->harga }}"
+                                            {{ $periksa->obats->contains('id', $obat->id) ? 'selected' : '' }}>
                                             {{ $obat->nama_obat }} - {{ $obat->harga }}
                                         </option>
                                     @endforeach
@@ -74,7 +91,7 @@
 
                             {{-- Tombol Aksi --}}
                             <div class="flex items-center gap-4 mt-4">
-                                <a href="{{ route('dokter.janji-periksa.index') }}" class="btn btn-secondary">
+                                <a href="{{ route('dokter.riwayat-periksa.index') }}" class="btn btn-secondary">
                                     Batal
                                 </a>
                                 <button type="submit" class="btn btn-primary">
@@ -104,6 +121,7 @@
                 biayaInput.value = total
             }
 
+            updateBiayaPeriksa();
             obatSelect.addEventListener('change', updateBiayaPeriksa);
         })
     </script>
