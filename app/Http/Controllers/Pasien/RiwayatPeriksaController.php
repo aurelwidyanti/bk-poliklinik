@@ -14,7 +14,10 @@ class RiwayatPeriksaController extends Controller
     public function index()
     {
         $no_rm = Auth::user()->no_rm;
-        $janjiPeriksas = JanjiPeriksa::where('id_pasien', Auth::user()->id)->paginate(10);
+        $janjiPeriksas = JanjiPeriksa::where('id_pasien', Auth::user()->id)
+            ->with(['jadwalPeriksa.dokter.poli', 'periksa'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('pasien.riwayat-periksa.index')->with([
             'no_rm' => $no_rm,
