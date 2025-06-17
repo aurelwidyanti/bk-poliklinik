@@ -14,8 +14,12 @@
                             {{ __('Daftar Obat Terhapus') }}
                         </h2>
                         <div>
-                            <a href="{{ route('dokter.obat.create') }}" class="btn btn-primary">Restore All</a>
-
+                            <form action="{{ route('dokter.obat.restoreAll') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Restore All
+                                </button>
+                            </form>
                             @if (session('status') === 'obat-restored')
                                 <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
                                     class="text-sm text-gray-600">
