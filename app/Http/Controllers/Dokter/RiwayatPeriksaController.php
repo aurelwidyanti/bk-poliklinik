@@ -18,7 +18,7 @@ class RiwayatPeriksaController extends Controller
     {
         $jadwalPeriksa = JadwalPeriksa::where('id_dokter', Auth::user()->id)->where('status', true)->first();
         $periksas = Periksa::with([
-            'janjiPeriksa' => function($query) use ($jadwalPeriksa) {
+            'janjiPeriksa' => function ($query) use ($jadwalPeriksa) {
                 $query->where('id_jadwal_periksa', $jadwalPeriksa->id);
             }
         ])->paginate(10);
@@ -57,14 +57,13 @@ class RiwayatPeriksaController extends Controller
      */
     public function edit(string $id)
     {
-        $periksa = Periksa::findOrFail($id);
+        $periksa = Periksa::with(relations: ['janjiPeriksa.pasien', 'obats'])->findOrFail($id);
 
         if ($periksa->janjiPeriksa->jadwalPeriksa->id_dokter !== Auth::user()->id) {
             abort(403, 'Unauthorized');
         }
 
         $obats = Obat::all();
-        $periksa->load(['janjiPeriksa']);
 
         return view('dokter.riwayat-periksa.edit')->with([
             'periksa' => $periksa,
@@ -77,7 +76,29 @@ class RiwayatPeriksaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $periksa = Periksa::with(relations: ['janjiPeriksa.pasien', 'obats'])->findOrFail($id);
+
+        if ($periksa->janjiPeriksa->jadwalPeriksa->id_dokter !== Auth::user()->id) {
+            abort(403, 'Unauthorized');
+        }
+
+        $validated = $request->validate([
+            'tgl_periksa' => 'required|date',
+            'catatan' => 'required|string|max:255',
+            'obat' => 'required|array',
+            'obat.*' => 'required|exists:obats,id',
+            'biaya_periksa' => 'required|integer'
+        ]);
+
+        $periksa->update([
+            'tgl_periksa' => $validated['tgl_periksa'],
+            'catatan' => $validated['catatan'],
+            'biaya_periksa' => $validated['biaya_periksa']
+        ]);
+
+        $periksa->obats()->sync($validated['obat']);
+
+        return redirect()->route('dokter.riwayat-periksa.index')->with('success', 'Riwayat periksa berhasil diupdate.');
     }
 
     /**
