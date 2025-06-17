@@ -25,7 +25,7 @@
                                 @endif
                             </div>
                             <div>
-                                <a href="{{ route('dokter.obat.deleted') }}" class="btn btn-primary">Obat Terhapus</a>
+                                <a href="{{ route('dokter.obat.deleted') }}" class="btn btn-secondary">Obat Terhapus</a>
                             </div>
                         </div>
                     </header>
