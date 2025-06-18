@@ -144,7 +144,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="align-middle text-center">
+                                        <td colspan="9" class="align-middle text-center">
                                             Anda belum memiliki janji periksa. Silakan membuat janji periksa dulu.
                                         </td>
                                     </tr>
