@@ -13,21 +13,47 @@
                         <h2 class="text-lg font-medium text-gray-900">
                             {{ __('Daftar Obat Terhapus') }}
                         </h2>
-                        <div>
+                        <div class="flex items-center gap-2">
                             <form action="{{ route('dokter.obat.restoreAll') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-primary btn-sm">
                                     Restore All
                                 </button>
                             </form>
-                            @if (session('status') === 'obat-restored')
-                                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-gray-600">
-                                    {{ __('Restored.') }}
-                                </p>
-                            @endif
+
+                            <form action="{{ route('dokter.obat.forceDeleteAll') }}" method="POST"
+                                onsubmit="return confirm('Yakin ingin menghapus PERMANEN semua obat? Data yang dihapus tidak dapat dikembalikan!')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt mr-1"></i>Hapus Semua Permanen
+                                </button>
+                            </form>
+
                         </div>
                     </header>
+
+                    @if (session('status'))
+                        <div
+                            class="mt-4 p-4 rounded-md 
+                              {{ session('status') === 'obat-restored' ? 'bg-green-50 border border-green-200' : '' }}
+                              {{ session('status') === 'obat-force-deleted' ? 'bg-red-50 border border-red-200' : '' }}
+                              {{ session('status') === 'all-obat-force-deleted' ? 'bg-red-50 border border-red-200' : '' }}">
+                            <p
+                                class="text-sm 
+                                {{ session('status') === 'obat-restored' ? 'text-green-800' : '' }}
+                                {{ session('status') === 'obat-force-deleted' ? 'text-red-800' : '' }}
+                                {{ session('status') === 'all-obat-force-deleted' ? 'text-red-800' : '' }}">
+                                @if (session('status') === 'obat-restored')
+                                    <i class="fas fa-check-circle mr-2"></i>Obat berhasil dipulihkan!
+                                @elseif (session('status') === 'obat-force-deleted')
+                                    <i class="fas fa-trash-alt mr-2"></i>Obat berhasil dihapus permanen!
+                                @elseif (session('status') === 'all-obat-force-deleted')
+                                    <i class="fas fa-trash-alt mr-2"></i>Semua obat berhasil dihapus permanen!
+                                @endif
+                            </p>
+                        </div>
+                    @endif
 
                     <div class="overflow-x-auto mt-6 rounded">
                         <table class="table table-hover min-w-full">
@@ -57,13 +83,26 @@
                                         </td>
                                         <td class="flex items-center gap-3">
                                             {{-- Button Restore --}}
-                                            <form action="{{ route('dokter.obat.restore', $obat->id) }}" method="POST">
+                                            <form action="{{ route('dokter.obat.restore', $obat->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary btn-sm">
                                                     <i class="fa-solid fa-rotate-left"></i>
                                                 </button>
                                             </form>
-                                        </td>                                        
+
+                                            {{-- Button Force Delete --}}
+                                            <form action="{{ route('dokter.obat.forceDelete', $obat->id) }}"
+                                                method="POST" class="inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus PERMANEN obat {{ $obat->nama_obat }}? Data yang dihapus tidak dapat dikembalikan!')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    title="Hapus permanen">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
