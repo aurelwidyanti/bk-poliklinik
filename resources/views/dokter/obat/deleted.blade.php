@@ -45,7 +45,7 @@
                                 {{ session('status') === 'obat-force-deleted' ? 'text-red-800' : '' }}
                                 {{ session('status') === 'all-obat-force-deleted' ? 'text-red-800' : '' }}">
                                 @if (session('status') === 'obat-restored')
-                                    <i class="fas fa-check-circle mr-2"></i>Obat berhasil dipulihkan!
+                                    <i class="fas fa-check-circle mr-2"></i>Obat berhasil direstore!
                                 @elseif (session('status') === 'obat-force-deleted')
                                     <i class="fas fa-trash-alt mr-2"></i>Obat berhasil dihapus permanen!
                                 @elseif (session('status') === 'all-obat-force-deleted')
